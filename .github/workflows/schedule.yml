@@ -1,16 +1,23 @@
 name: Update gist with WakaTime stats
+
 on:
   schedule:
     - cron: "0 0 * * *"
-  # Manual triggers with workflow_dispatch
   workflow_dispatch:
+
 jobs:
   update-gist:
     runs-on: ubuntu-latest
+
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
     steps:
-      - uses: actions/checkout@master
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
       - name: Update gist
-        uses: matchai/waka-box@master
+        uses: ./
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GIST_ID: ${{ secrets.GIST_ID }}
